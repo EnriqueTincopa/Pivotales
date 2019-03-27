@@ -3,7 +3,10 @@ title: "Papers"
 author: "Enrique Mendoza Tincopa"
 date: "24 de marzo de 2019"
 published: true
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
