@@ -26,6 +26,11 @@ library(DT)
 # Loading the Papers Dataset
 
 matriz<- read_excel("Matriz_de_papers_actualizado.xlsx", sheet=1)
+datatable(matriz, extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  )
+)
 ```
 
 
