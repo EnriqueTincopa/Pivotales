@@ -25,7 +25,9 @@ library(DT)
 
 # Loading the Papers Dataset
 
-matriz<- read_excel("Matriz_de_papers_actualizado.xlsx", sheet=1)
+matriz<- read_excel("Matriz_de_papers_actualizado.xlsx", sheet=1)%>%
+select(Titulo, Farmaco_N_C, Farmaco_N_Q, PUBMED_Link, Copyright, Journal,Journal_Link, DOI, Condicion, Indicacion, Estudio) %>% 
+filter(row_number()<100)
 datatable(matriz, extensions = 'Buttons', options = list(
     dom = 'Bfrtip',
     buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
