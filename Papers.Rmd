@@ -1,6 +1,6 @@
 ---
 title: "Roche Farma - Estudios Pivotales"
-author: "Enrique Mendoza Tincopa"
+author: "Desarrollador: Enrique Mendoza Tincopa"
 date: "24 de marzo de 2019"
 output:
   html_document: default
@@ -21,23 +21,36 @@ library(forcats)
 library(ggExtra)
 library(lubridate)
 library(DT)
+library(shiny)
 
 # Loading the Papers Dataset
 
 matriz<- read_excel("Matriz_de_papers_actualizado.xlsx", sheet=1)
-datatable(
-  matriz, 
-  extensions = 'Buttons', options = list(
-    dom = 'Bfrtip',
-    buttons = c('copy','print')
-    )
-)
 
 ```
 
 A continuacion una tabla con los estudios clinicos pivotales de algunos de los medicamentos elaborados por Roche. Se puede acceder a cada articulo por medio de los links mencionados, tanto al repositorio en PUBMED como tambien al Journal donde se ha publicado.
 
 ```{r cleaning_data, warning=F, echo=F, message=F}
+
+datatable(matriz,
+    filter="top",
+    editable = TRUE, 
+    class = 'cell-border stripe',
+    extensions = list("Buttons" = NULL,
+                      "ColReorder" = NULL,
+                      'KeyTable'=NULL),
+    options = list(
+    pageLenght = 10,
+    autoWidth= TRUE,
+    dom = "Bfrtip", "t",
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print',I ("colvis")),
+    colReorder = TRUE,
+    keys = TRUE
+  ), caption = htmltools::tags$caption(
+    style="caption-side:bottom; text-align:center;", "Table:", htmltools::em("Matriz de Papers Pivotales de Roche Farma (Peru). No todos los articulos listados en la siguiente tabla son Open Source.") 
+))
+
 
 colnames(matriz) <- make.names(colnames(matriz))
 
@@ -68,8 +81,6 @@ matriz$Farmaco_N_Q <- as.character(matriz$Farmaco_N_Q)
 matriz$Indicacion <- gsub("\\$", "", matriz$Indicacion)
 matriz$Indicacion<- gsub(",", "", matriz$Indicacion)
 matriz$Indicacion <- as.character(matriz$Indicacion)
-
-datatable(matriz)
 ```
 
 
