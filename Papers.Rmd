@@ -1,5 +1,5 @@
 ---
-title: "Papers resumen"
+title: "Roche Farma - Estudios Pivotales"
 author: "Enrique Mendoza Tincopa"
 date: "24 de marzo de 2019"
 output:
@@ -18,25 +18,26 @@ library(dplyr)
 library(ggplot2)
 library(ggthemes)
 library(forcats)
-library(patchwork)
 library(ggExtra)
 library(lubridate)
 library(DT)
 
 # Loading the Papers Dataset
 
-matriz<- read_excel("Matriz_de_papers_actualizado.xlsx", sheet=1)%>%
-  select(Titulo, Farmaco_N_C, Farmaco_N_Q, PUBMED_Link, Copyright, Journal,Journal_Link, DOI, Condicion, Indicacion, Estudio) %>% 
-  filter(row_number()<100)
-datatable(matriz, extensions = 'Buttons', options = list(
+matriz<- read_excel("Matriz_de_papers_actualizado.xlsx", sheet=1)
+datatable(
+  matriz, 
+  extensions = 'Buttons', options = list(
     dom = 'Bfrtip',
-    buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
-  )
+    buttons = c('copy','print')
+    )
 )
+
 ```
 
+A continuacion una tabla con los estudios clinicos pivotales de algunos de los medicamentos elaborados por Roche. Se puede acceder a cada articulo por medio de los links mencionados, tanto al repositorio en PUBMED como tambien al Journal donde se ha publicado.
 
-```{r cleaning_data, warning=F, echo=F}
+```{r cleaning_data, warning=F, echo=F, message=F}
 
 colnames(matriz) <- make.names(colnames(matriz))
 
@@ -67,13 +68,9 @@ matriz$Farmaco_N_Q <- as.character(matriz$Farmaco_N_Q)
 matriz$Indicacion <- gsub("\\$", "", matriz$Indicacion)
 matriz$Indicacion<- gsub(",", "", matriz$Indicacion)
 matriz$Indicacion <- as.character(matriz$Indicacion)
-```
 
-
-A continuacion una tabla con los estudios clinicos pivotales de algunos de los medicamentos elaborados por Roche. Se puede acceder a cada articulo por medio de los links mencionados, tanto al repositorio en PUBMED como tambien al Journal donde se ha publicado.
-
-
-```{r display_data,warning=F, message=F, echo=F}
 datatable(matriz)
 ```
+
+
 
