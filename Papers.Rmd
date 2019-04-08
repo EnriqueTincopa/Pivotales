@@ -6,6 +6,8 @@ output:
   html_document:
     theme: united
     highlight: espresso
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
@@ -25,6 +27,7 @@ library(DT)
 library(shiny)
 library(knitr)
 library(kableExtra)
+library(patchwork)
 
 # Loading the Papers Dataset
 
@@ -33,8 +36,12 @@ matriz<- read_excel("Matriz_de_papers_actualizado.xlsx", sheet=1)
 
 A continuacion una tabla con los estudios clinicos pivotales de algunos de los medicamentos elaborados por Roche. Se puede acceder a cada articulo por medio de los links mencionados, tanto al repositorio en PUBMED como tambien al Journal donde se ha publicado.
 
+# Matriz de Estudios Pivotales
+
 ```{r cleaning_data, warning=F, echo=F, message=F}
-matriz$PUBMED_Link <-paste0("<ahref=",matriz$PUBMED_Link,">Hello</a>")
+matriz$PUBMED_Link <- paste0("<a href='",matriz$PUBMED_Link,"' target='_blank'>",matriz$PUBMED_Link,"</a>")
+
+matriz$Journal_Link <- paste0("<a href='",matriz$Journal_Link,"' target='_blank'>",matriz$Journal_Link,"</a>")
 
 datatable(matriz,
     filter="top",
@@ -54,7 +61,7 @@ datatable(matriz,
     
     colReorder = TRUE,
     keys = TRUE), 
-    caption = htmltools::tags$caption(style="caption-side:bottom; text-align:center;", "Tabla:", htmltools::em("Matriz de Papers Pivotales de Roche Farma (Peru). No todos los articulos listados en la siguiente tabla son Open Source.") 
+    caption = htmltools::tags$caption(style="caption-side:bottom; text-align:left;", "Nota:", htmltools::em("Matriz de Papers Pivotales de Roche Farma (Peru). No todos los articulos listados en la siguiente tabla son Open Source.") 
 ))
 
 
@@ -89,5 +96,34 @@ matriz$Indicacion<- gsub(",", "", matriz$Indicacion)
 matriz$Indicacion <- as.character(matriz$Indicacion)
 ```
 
+# Cantidad de estudios pivotales por medicamento y revista científica
 
+```{r analysis, warning=F, echo=F, message=F}
+
+ggplot(matriz, aes(x=Farmaco_N_C, fill=Farmaco_N_C))+
+  geom_bar(fill="black")+
+  labs(title="Cantidad de estudios pivotales por medicamento",
+       subtitle="Estudios Pivotales", y="Cantidad de Menciones", x="Producto Roche")+
+  theme_classic()+
+  theme(legend.position = "none")+
+  theme(panel.grid.major = element_blank(),
+        axis.text.x = element_text(angle=90, hjust=1, size=9),
+        axis.ticks = element_blank(),
+        panel.border = element_blank(),
+        plot.title=element_text())
+```
+
+```{r, echo = FALSE}
+ggplot(matriz, aes(x=Journal, fill=Journal))+
+  geom_bar(fill="black")+
+  labs(title="Revistas más referenciadas",
+       subtitle="Estudios Pivotales", y="Cantidad", x="Journal")+
+  theme_classic()+
+  theme(legend.position = "none")+
+  theme(panel.grid.major = element_blank(),
+        axis.text.x = element_text(angle=90, hjust=1, size=9),
+        axis.ticks = element_blank(),
+        panel.border = element_blank(),
+        plot.title=element_text())
+```
 
