@@ -97,7 +97,7 @@ matriz$Indicacion <- as.character(matriz$Indicacion)
 
 ```
 
-# Cantidad de estudios pivotales por medicamento y revista cient?fica
+# Cantidad de estudios pivotales por medicamento y revista cientifica
 
 ```{r analysis, warning=F, echo=F, message=F}
 
