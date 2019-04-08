@@ -116,7 +116,7 @@ ggplot(matriz, aes(x=Farmaco_N_C, fill=Farmaco_N_C))+
 ```{r, echo = FALSE}
 ggplot(matriz, aes(x=Journal, fill=Journal))+
   geom_bar(fill="black")+
-  labs(title="Revistas más referenciadas",
+  labs(title="Revistas mas referenciadas",
        subtitle="Estudios Pivotales", y="Cantidad", x="Journal")+
   theme_classic()+
   theme(legend.position = "none")+
