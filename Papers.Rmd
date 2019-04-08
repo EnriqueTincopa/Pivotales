@@ -34,7 +34,7 @@ matriz<- read_excel("Matriz_de_papers_actualizado.xlsx", sheet=1)
 A continuacion una tabla con los estudios clinicos pivotales de algunos de los medicamentos elaborados por Roche. Se puede acceder a cada articulo por medio de los links mencionados, tanto al repositorio en PUBMED como tambien al Journal donde se ha publicado.
 
 ```{r cleaning_data, warning=F, echo=F, message=F}
-matriz$PUBMED_Link <-paste0("<ahref='",matriz$PUBMED_Link,"'></a>")
+matriz$PUBMED_Link <-paste0("<ahref=",matriz$PUBMED_Link,">Hello</a>")
 
 datatable(matriz,
     filter="top",
