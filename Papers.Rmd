@@ -3,8 +3,9 @@ title: "Roche Farma - Estudios Pivotales"
 author: "Desarrollador: Enrique Mendoza Tincopa"
 date: "24 de marzo de 2019"
 output:
-  html_document: default
-  pdf_document: default
+  html_document:
+    theme: united
+    highlight: espresso
 ---
 
 ```{r setup, include=FALSE}
@@ -22,19 +23,22 @@ library(ggExtra)
 library(lubridate)
 library(DT)
 library(shiny)
+library(knitr)
+library(kableExtra)
 
 # Loading the Papers Dataset
 
 matriz<- read_excel("Matriz_de_papers_actualizado.xlsx", sheet=1)
-
 ```
 
 A continuacion una tabla con los estudios clinicos pivotales de algunos de los medicamentos elaborados por Roche. Se puede acceder a cada articulo por medio de los links mencionados, tanto al repositorio en PUBMED como tambien al Journal donde se ha publicado.
 
 ```{r cleaning_data, warning=F, echo=F, message=F}
+matriz$PUBMED_Link <-paste0("<a href='",matriz$PUBMED_Link,"'></a>")
 
 datatable(matriz,
     filter="top",
+    escape = FALSE,
     editable = TRUE, 
     class = 'cell-border stripe',
     extensions = list("Buttons" = NULL,
@@ -44,11 +48,13 @@ datatable(matriz,
     pageLenght = 10,
     autoWidth= TRUE,
     dom = "Bfrtip", "t",
-    buttons = c('copy', 'csv', 'excel', 'pdf', 'print',I ("colvis")),
+    buttons = list('copy','print', I("colvis"), list(extend = "collection", 
+                                        buttons = c('csv', 'excel', 'pdf'),
+                                        text = "Download")), 
+    
     colReorder = TRUE,
-    keys = TRUE
-  ), caption = htmltools::tags$caption(
-    style="caption-side:bottom; text-align:center;", "Table:", htmltools::em("Matriz de Papers Pivotales de Roche Farma (Peru). No todos los articulos listados en la siguiente tabla son Open Source.") 
+    keys = TRUE), 
+    caption = htmltools::tags$caption(style="caption-side:bottom; text-align:center;", "Tabla:", htmltools::em("Matriz de Papers Pivotales de Roche Farma (Peru). No todos los articulos listados en la siguiente tabla son Open Source.") 
 ))
 
 
