@@ -4,13 +4,12 @@ author: "Desarrollador: Enrique Mendoza Tincopa"
 date: "24 de marzo de 2019"
 output:
   html_document:
+    toc: true
     theme: united
     highlight: espresso
-    toc: true
-    toc_float: true
 ---
 
-```{r setup, include=FALSE}
+```{r loading, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
 # load packages
@@ -25,9 +24,7 @@ library(ggExtra)
 library(lubridate)
 library(DT)
 library(shiny)
-library(knitr)
-library(kableExtra)
-library(patchwork)
+
 
 # Loading the Papers Dataset
 
@@ -38,7 +35,7 @@ A continuacion una tabla con los estudios clinicos pivotales de algunos de los m
 
 # Matriz de Estudios Pivotales
 
-```{r cleaning_data, warning=F, echo=F, message=F}
+```{r display_data, warning=F, echo=F, message=F}
 matriz$PUBMED_Link <- paste0("<a href='",matriz$PUBMED_Link,"' target='_blank'>",matriz$PUBMED_Link,"</a>")
 
 matriz$Journal_Link <- paste0("<a href='",matriz$Journal_Link,"' target='_blank'>",matriz$Journal_Link,"</a>")
@@ -64,6 +61,9 @@ datatable(matriz,
     caption = htmltools::tags$caption(style="caption-side:bottom; text-align:left;", "Nota:", htmltools::em("Matriz de Papers Pivotales de Roche Farma (Peru). No todos los articulos listados en la siguiente tabla son Open Source.") 
 ))
 
+```
+
+```{r cleaning_data, warning=F, echo=F}
 
 colnames(matriz) <- make.names(colnames(matriz))
 
@@ -94,9 +94,10 @@ matriz$Farmaco_N_Q <- as.character(matriz$Farmaco_N_Q)
 matriz$Indicacion <- gsub("\\$", "", matriz$Indicacion)
 matriz$Indicacion<- gsub(",", "", matriz$Indicacion)
 matriz$Indicacion <- as.character(matriz$Indicacion)
+
 ```
 
-# Cantidad de estudios pivotales por medicamento y revista científica
+# Cantidad de estudios pivotales por medicamento y revista cient?fica
 
 ```{r analysis, warning=F, echo=F, message=F}
 
@@ -111,9 +112,7 @@ ggplot(matriz, aes(x=Farmaco_N_C, fill=Farmaco_N_C))+
         axis.ticks = element_blank(),
         panel.border = element_blank(),
         plot.title=element_text())
-```
 
-```{r, echo = FALSE}
 ggplot(matriz, aes(x=Journal, fill=Journal))+
   geom_bar(fill="black")+
   labs(title="Revistas mas referenciadas",
